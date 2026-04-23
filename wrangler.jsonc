@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jash-built-this",
+  "main": "src/index.js",
+  "compatibility_date": "2026-04-23",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
