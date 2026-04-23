@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business Planner AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Local AI Strategy Workspace</p>
+      <h1>Build a business plan and PRD from one idea.</h1>
+      <p class="lede">
+        Drop in a raw business concept, add supporting files, enable research, choose your AI providers, and generate a structured strategy document with exportable deliverables.
+      </p>
+    </section>
+
+    <section class="panel grid">
+      <div class="card">
+        <div class="card-head">
+          <h2>Business Input</h2>
+          <span class="tag">Text + documents</span>
+        </div>
+
+        <label class="field">
+          <span>Business idea</span>
+          <textarea id="businessIdea" rows="10" placeholder="Describe the business idea, customer problem, target market, and any constraints."></textarea>
+        </label>
+
+        <label class="field">
+          <span>Supporting document</span>
+          <input id="supportingFile" type="file" accept=".txt,.md,.pdf,.doc,.docx,.pptx,.json,.csv">
+          <small>Supported in-browser extraction: TXT, Markdown, PDF, DOC/DOCX, PPTX, JSON, CSV.</small>
+        </label>
+
+        <label class="field">
+          <span>Extra context</span>
+          <textarea id="contextNotes" rows="5" placeholder="Optional: geography, budget constraints, target customers, preferred business model, founder background, or launch timeline."></textarea>
+        </label>
+
+        <div class="selector-grid">
+          <label class="field compact-field">
+            <span>Planning focus</span>
+            <select id="planMode">
+              <option value="balanced">Balanced strategy + PRD</option>
+              <option value="investor">Investor and VC ready</option>
+              <option value="software_prd">Software-first PRD</option>
+            </select>
+          </label>
+
+          <label class="field compact-field">
+            <span>Business type</span>
+            <select id="productType">
+              <option value="software">Software / AI product</option>
+              <option value="hybrid">Hybrid product + service</option>
+              <option value="service">Service / agency / ops-led</option>
+            </select>
+          </label>
+
+          <label class="field compact-field">
+            <span>Speed mode</span>
+            <select id="speedMode">
+              <option value="fast">Fast</option>
+              <option value="detailed">Detailed</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <label class="toggle">
+            <input id="useResearch" type="checkbox">
+            <span>Use live web research and citations when supported</span>
+          </label>
+        </div>
+
+        <div class="file-summary" id="fileSummary">No file processed yet.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>AI Setup</h2>
+          <span class="tag">Multi-provider</span>
+        </div>
+
+        <div id="providerList" class="provider-list">
+          <p class="muted">Loading configured providers...</p>
+        </div>
+
+        <div class="callout">
+          <strong>How it works</strong>
+          <p>The app generates a strategy memo, competitor packet, PRD packet, and then synthesizes them into one final business plan. When OpenAI is configured and research is enabled, it can also pull current web sources into the analysis.</p>
+        </div>
+
+        <button id="generateBtn" class="primary">Generate business plan</button>
+      </div>
+    </section>
+
+    <section class="panel result-panel">
+      <div class="card result-card">
+        <div class="card-head">
+          <h2>Generated Document</h2>
+          <div class="actions">
+            <button id="copyBtn" class="secondary" disabled>Copy Markdown</button>
+            <button id="downloadMdBtn" class="secondary" disabled>Download .md</button>
+            <button id="downloadDocxBtn" class="secondary" disabled>Export .docx</button>
+            <button id="downloadPdfBtn" class="secondary" disabled>Export .pdf</button>
+          </div>
+        </div>
+
+        <div id="status" class="status idle">Waiting for input.</div>
+        <div id="meta" class="meta"></div>
+        <article id="preview" class="preview empty">Your business plan will appear here.</article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="card sources-card">
+        <div class="card-head">
+          <h2>Research Sources</h2>
+          <span id="sourceBadge" class="tag">No citations yet</span>
+        </div>
+        <div id="sourcesPanel" class="sources empty">Live source citations will appear here when research-backed runs are available.</div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>
